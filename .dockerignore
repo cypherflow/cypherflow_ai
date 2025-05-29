@@ -1,0 +1,49 @@
+# Node modules and dependencies
+node_modules
+npm-debug.log
+pnpm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Build outputs
+.svelte-kit
+build
+.output
+
+# Development environment
+.env
+.env.*
+!.env.example
+
+# Version control
+.git
+.github
+.gitignore
+
+# Editor directories and files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+coverage
+__tests__
+test
+tests
+*.spec.*
+*.test.*
+
+# Docker files (to avoid infinite recursion)
+Dockerfile
+.dockerignore
+
+# Temporary files
+*.log
+*.tmp
+.tmp
+tmp

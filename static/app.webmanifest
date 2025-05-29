@@ -1,0 +1,32 @@
+{
+	"name": "CypherFlow.ai",
+	"short_name": "CypherFlow",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#111111",
+	"theme_color": "#000088",
+	"description": "Access open source model privately with Bitcoin E-Cash",
+	"icons": [
+		{
+			"src": "pwa-64x64.png",
+			"sizes": "64x64",
+			"type": "image/png"
+		},
+		{
+			"src": "pwa-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "pwa-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		},
+		{
+			"src": "maskable-icon-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "maskable"
+		}
+	]
+}
