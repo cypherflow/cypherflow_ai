@@ -109,6 +109,13 @@
 		// Using a weighted average with more weight on completion tokens
 		return (model.prompt_tokens_per_sat * 0.25 + model.completion_tokens_per_sat * 0.75);
 	}
+  
+  let selectedModelName = $derived.by(() => {
+    const name = selectedModel?.name;
+    // remove provider
+    return name?.slice(name.indexOf(":")+2)
+  })
+
 </script>
 
 <Popover.Root bind:open>
@@ -129,7 +136,7 @@
 				{:else if selectedModel}
 					<div class="flex flex-col items-start">
 						<div class="flex items-center gap-1">
-							<span class="font-medium">{selectedModel.id}</span>
+							<span class="font-medium truncate">{selectedModelName}</span>
 						</div>
 						<span class="text-xs text-muted-foreground">
 							{getFormattedWordsPerSat(selectedModel)}
@@ -175,7 +182,7 @@
 										<Check class={cn('h-4 w-4 mt-1', chatSession?.modelId !== model.id && 'text-transparent')} />
 										<div class="flex flex-col">
 											<div class="flex items-center gap-1">
-												<span class="font-medium">{model.id}</span>
+												<span class="font-medium">{model.name}</span>
 																					</div>
 											<span class= {!isModelAffordable(model.id) && $isWalletReady ? "text-xs text-yellow-600 dark:text-yellow-500" : "text-xs text-green-600 dark:text-green-500 font-medium"}>
 												{getFormattedWordsPerSat(model)}

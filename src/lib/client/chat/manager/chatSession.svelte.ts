@@ -29,7 +29,7 @@ export class ChatSession {
 	private branches = $state<Map<string, NDKChatBranch>>(new Map());
 	private messages = $state<Map<string, NDKChatMessage>>(new Map());
 	private activeBranchId = $derived(this.chatContainer?.activeBranchId);
-	modelId = $state<string>('claude-3-haiku');
+	modelId = $state<string>('qwen/qwen3-14b');
 
 	// Track if this is a new or existing chat
 	isNewChat = $state<boolean>(true);

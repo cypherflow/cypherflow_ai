@@ -95,7 +95,5 @@
 		{#if chatSession.isSubmitting && chatSession.chat.status !== 'streaming'}
 			<Loader class="mb-2 ml-2 animate-spin" />
 		{/if}
-		<!-- Padding at the bottom for better UX -->
-		<div class="h-4"></div>
 	</div>
 </ScrollArea>
