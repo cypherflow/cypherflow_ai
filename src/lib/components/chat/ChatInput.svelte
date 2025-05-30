@@ -73,11 +73,11 @@
 </script>
 
 <div class="sticky bottom-0 w-full px-2 pb-2">
-  <div  class="w-full flex justify-end">
-    <div class="bg-secondary rounded-t-xl">
+  <div  class="w-full flex justify-end bg-transparent">
+    <!--<div class="bg-secondary rounded-t-xl">-->
 
 					<ModelBox bind:chatSession={chatSession} />
-    </div>
+    <!--</div>-->
   </div>
 	<div class="w-full rounded-b-xl rounded-tl-xl border bg-secondary p-1 shadow-2xl dark:shadow-popover">
 		{#if !isSufficientBalance && $isWalletReady}
