@@ -84,6 +84,7 @@
 			
 			// only calculate the deposit to cover the max output. dont mind the input deposit for model box
 			deposits[model.id] = Math.ceil(model.max_output_tokens / model.completion_tokens_per_sat)
+      if (model.prompt_tokens_per_sat == -1) deposits[model.id] = 0;
 			d.log(`[MODEL DEPOSITS] Calculated deposit for ${model.id}: ${deposits[model.id]} sats`);
 		});
 		
@@ -93,7 +94,8 @@
 	
 	// Get deposit for a specific model
 	function getDepositForModel(modelId: string): number {
-		const deposit = modelDeposits[modelId] || 1;
+		const deposit = modelDeposits[modelId];
+    //console.log("deposit for modelId: ", modelId, ": ", deposit)
 		return deposit;
 	}
 	
@@ -102,7 +104,7 @@
 		const deposit = getDepositForModel(modelId);
 		const affordable = deposit <= currentBalance;
 		d.log(`[AFFORDABILITY] Model ${modelId}: deposit=${deposit}, balance=${currentBalance}, affordable=${affordable}`);
-		d.log("models: ", availableModels)
+		//d.log("models: ", availableModels)
 		return affordable;
 	}
 	
@@ -118,6 +120,12 @@
 	
 	// Consolidated function for words per sat calculation and formatting
 	function getFormattedWordsPerSat(model: ModelPublicationDetails): string {
+    // if prompt and completion prices are zero, then it is a free model
+    if (model.prompt_tokens_per_sat == -1) {
+      return "Free"
+    }
+
+
 		// Using the heuristic that 1 token ≈ 0.75 words
 		// Calculating a weighted average of prompt and completion tokens
 		const inputWordsPerSat = model.prompt_tokens_per_sat * 0.75;
@@ -134,6 +142,10 @@
 	
 	// Calculate average tokens per sat for sorting
 	function calculateAvgTokensPerSat(model: ModelPublicationDetails): number {
+    if (model.prompt_tokens_per_sat == -1 && model.completion_tokens_per_sat == -1){
+      // free model so it is infinite tokens per sat
+      return 1e6
+    }
 		// Using a weighted average with more weight on completion tokens
 		return (model.prompt_tokens_per_sat * 0.25 + model.completion_tokens_per_sat * 0.75);
 	}
@@ -230,10 +242,6 @@
 												src={getProviderIcon(model.id)} 
 												alt="{getProviderFromModelId(model.id)} icon"
 												class="w-5 h-5 flex-shrink-0 rounded text-foreground"
-												on:error={(e) => {
-													// Hide image if it fails to load
-													e.target.style.display = 'none';
-												}}
 											/>
 										{:else}
 											<!-- Fallback: Show first letter of provider -->

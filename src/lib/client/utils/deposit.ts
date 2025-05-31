@@ -151,7 +151,7 @@ export function calculateCurrentDepositAmount(messages: Message[], modelId: stri
   const model = getModelById(modelId);
   if (!model) {
     d.warn(`[CALCULATE] Model ${modelId} not found for deposit calculation, using fallback amount of 5 sats`);
-    return 5; // Fallback minimum amount
+    return 50; // Fallback minimum amount
   }
   
   d.log(`[CALCULATE] Model found for ${modelId}:`, {
@@ -160,6 +160,12 @@ export function calculateCurrentDepositAmount(messages: Message[], modelId: stri
     completion_tokens_per_sat: model.completion_tokens_per_sat,
     max_output_tokens: model.max_output_tokens
   });
+
+  if (model.prompt_tokens_per_sat == -1 && model.completion_tokens_per_sat == -1){
+    // This is a free model. 0 sats requried
+    d.log("this is a free model, no deposit required")
+    return 0;
+  }
   
   try {
     d.log(`[CALCULATE] Calculating deposit for ${messages.length} messages with model ${modelId}`);

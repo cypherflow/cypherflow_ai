@@ -19,7 +19,7 @@
 	
 	// Calculate required deposit using the utility function
 	const requiredDeposit = $derived.by(() => {
-		if (!chatSession?.chat?.messages) return 1;
+		//if (!chatSession?.chat?.messages) return 1;
 		
 		// Get all messages from the chat, including the current draft if there is one
 		const messages = [...chatSession.chat.messages];

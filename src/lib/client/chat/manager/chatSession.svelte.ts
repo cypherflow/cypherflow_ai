@@ -537,9 +537,17 @@ export class ChatSession {
 			// Generate the token with the calculated deposit amount
 			const requiredDeposit = this.calculateRequiredDeposit();
 			dDeposit.log(`Requesting token for ${requiredDeposit} sats deposit`);
-			
+
+      let encodedToken: string;
+      if (requiredDeposit == 0) {
+        d.log("This must be a free model, setting to free token")
+        encodedToken = "free-model"
+      } else {	
 			const { generateToken } = await import('$lib/client/stores/wallet');
-			const { encodedToken } = await generateToken(requiredDeposit, [  "https://mint.cypherflow.ai" ]);
+        d.log("This is a paid model, generating token for: ", requiredDeposit, "sats")
+		  let result = await generateToken(requiredDeposit, [  "https://mint.cypherflow.ai" ]);
+      encodedToken = result.encodedToken;
+      }
 
 			if (encodedToken) {
 				dDeposit.log(`Token generated successfully for ${requiredDeposit} sats`);
