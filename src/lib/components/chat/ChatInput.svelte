@@ -8,6 +8,7 @@
 	import type { ChatSession } from '$lib/client/chat';
 	import { calculateCurrentDepositAmount } from '$lib/client/utils/deposit';
 	import InsufficientBalanceAlert from './InsufficientBalanceAlert.svelte';
+	import type { Message } from '@ai-sdk/ui-utils';
 	
 	let { chatSession = $bindable() } = $props<{
 		chatSession: ChatSession;
@@ -18,11 +19,8 @@
 	const currentBalance = $derived($walletBalance);
 	
 	// Calculate required deposit using the utility function
-	const requiredDeposit = $derived.by(() => {
-		//if (!chatSession?.chat?.messages) return 1;
-		
-		// Get all messages from the chat, including the current draft if there is one
-		const messages = [...chatSession.chat.messages];
+	let requiredDeposit = $derived.by(() => {
+    let messages: Message[] = [];
 		
 		// If there's a draft message (current input), add it to the messages for deposit calculation
 		if (chatSession.chat.input && chatSession.chat.input.trim().length > 0) {

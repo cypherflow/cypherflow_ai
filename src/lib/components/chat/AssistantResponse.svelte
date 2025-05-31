@@ -22,7 +22,7 @@
 		<Button onclick={() => copyToClipboard(content, 'Text')} variant="ghost" size="icon">
 			<Copy />
 		</Button>
-		<Button onclick={onRegenerateClick} variant="ghost" size="icon">
+		<Button disabled onclick={onRegenerateClick} variant="ghost" size="icon">
 			<RefreshCw />
 		</Button>
 	</div>
