@@ -18,8 +18,8 @@ export interface ChatSummary {
 }
 
 export interface MyAnnotation {
-  deposit: string | null;
-  used: number | null;
+  deposit: number | null;
+  totalCost: number | null;
 	change: string | null;
   modelId: string | null;
   prompt_tokens_per_sat: number | null;

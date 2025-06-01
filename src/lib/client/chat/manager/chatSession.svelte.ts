@@ -5,7 +5,7 @@ import { generateId, type Message, type UIMessage } from '@ai-sdk/ui-utils';
 import { NDKChatContainer } from '../events/chatContainer';
 import { NDKChatBranch } from '../events/branchContainer';
 import { NDKChatMessage } from '../events/message';
-import { NDKChatKind } from '../types';
+import { NDKChatKind, type LanguageModelUsage, type LanguageModelV1FinishReason } from '../types';
 import type { MyAnnotation } from '$lib/types/chat';
 import { receiveToken } from '$lib/client/stores/wallet';
 import { PUBLIC_CHAT_ENDPOINT } from '$env/static/public';
@@ -77,6 +77,8 @@ export class ChatSession {
 			api: PUBLIC_CHAT_ENDPOINT,
 			onFinish: async (message, { usage, finishReason }) => {
 				d.log(`Assistant message finished - finishReason: ${finishReason}, usage:`, usage);
+
+        let firstAnnotation: MyAnnotation | undefined = undefined;
 				
 				if (
 					message.annotations &&
@@ -84,7 +86,7 @@ export class ChatSession {
 					message.annotations.length > 0
 				) {
 					d.log('Message contains annotations:', message.annotations);
-					const firstAnnotation = message.annotations[0] as unknown as MyAnnotation;
+					firstAnnotation = message.annotations[0] as unknown as MyAnnotation;
 
 					this.isSubmitting = false;
 					if (firstAnnotation.change)
@@ -98,7 +100,7 @@ export class ChatSession {
 				}
 
 				this.isSubmitting = false;
-				await this.handleAssistantMessage(message);
+				await this.handleAssistantMessage(message, usage, finishReason, firstAnnotation);
 			}
 		});
 
@@ -597,7 +599,7 @@ export class ChatSession {
 	/**
 	 * Send an assistant message
 	 */
-	async handleAssistantMessage(message: Message) {
+	async handleAssistantMessage(message: Message, usage: LanguageModelUsage, finishReason: LanguageModelV1FinishReason, annotation?: MyAnnotation) {
 		d.log(`Handling assistant message: "${message.content.substring(0, 50)}${message.content.length > 50 ? '...' : ''}"`);
 		if (!message.content.trim()) {
 			d.warn('Empty assistant message, skipping');
@@ -614,6 +616,18 @@ export class ChatSession {
 		messageEvent.messageId = message.id;
 		messageEvent.role = message.role;
 		messageEvent.content = message.content;
+    messageEvent.finishReason = finishReason;
+    messageEvent.promptTokens = usage.promptTokens;
+    messageEvent.completionTokens = usage.completionTokens;
+
+    if (annotation){
+    messageEvent.promptTokensPerSat = annotation.prompt_tokens_per_sat || 0
+    messageEvent.completionTokensPerSat = annotation.completion_tokens_per_sat || 0
+    messageEvent.modelId = annotation.modelId || '';
+    messageEvent.depositAmount = annotation.deposit || 0;
+    }
+
+    console.log("new message event: ", messageEvent)
 
 		// Since UI is updated automatically for AI responses, previous message should be the second to last
 		const prevMessageId = this.chat.messages[this.chat.messages.length - 2]?.id;

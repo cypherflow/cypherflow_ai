@@ -87,7 +87,91 @@ export class NDKChatMessage extends NDKEvent {
 		this.tags.push(['role', role]);
 	}
 
-	get modelId(): string | {};
+	get modelId(): string | undefined {
+    return this.tagValue('modelId');
+  }
+
+  set modelId(modelId: string) {
+    this.removeTag('modelId');
+    this.tags.push(['modelId', modelId]);
+  }
+
+  get promptTokensPerSat(): number | undefined {
+    const tokens = this.tagValue('promptTokensPerSat');
+    if (tokens) return Number(tokens);
+  }
+
+  set promptTokensPerSat(tokensPerSat: number) {
+    this.removeTag('promptTokensPerSat');
+    this.tags.push(['promptTokensPerSat', tokensPerSat.toString()]);
+  }
+  get completionTokensPerSat(): number | undefined {
+    const tokens = this.tagValue('completionTokensPerSat')
+    if (tokens) return Number(tokens)
+  }
+
+  set completionTokensPerSat(tokensPerSat: number) {
+    this.removeTag('completionTokensPerSat');
+    this.tags.push(['completionTokensPerSat', tokensPerSat.toString()]);
+  }
+  get promptTokens(): number | undefined {
+    const tokens = this.tagValue('promptTokens');
+    if (tokens) {
+      return Number(tokens)
+    }
+  }
+
+  get completionTokens(): number | undefined {
+    const tokens = this.tagValue('completionTokens');
+    if (tokens) {
+      return Number(tokens)
+    }
+  }
+
+  set promptTokens(tokens: number) {
+    this.removeTag('promptTokens');
+    this.tags.push(['promptTokens', tokens.toString()])
+  }
+
+  set completionTokens(tokens: number) {
+    this.removeTag('promptTokens');
+    this.tags.push(['promptTokens', tokens.toString()])
+  }
+
+  get inputCost(): number | undefined {
+    if (this.promptTokensPerSat && this.promptTokens){
+      return this.promptTokens / this.promptTokensPerSat
+    }
+  }
+
+  get outputCost(): number | undefined {
+    if (this.completionTokensPerSat && this.completionTokens){
+      return this.completionTokens / this.completionTokensPerSat
+    }
+  }
+
+  get totalCost(): number | undefined {
+    if (this.inputCost && this.outputCost) return this.inputCost + this.outputCost;
+  }
+
+  set finishReason(reason: string){
+    this.removeTag('finishReason');
+    this.tags.push(['finishReason', reason]);
+  }
+
+  get finishReason(): string | undefined {
+    return this.tagValue('finishReason');
+  }
+
+  set depositAmount(amount: number){
+    this.removeTag('depositAmount');
+    this.tags.push(['depositAmount', amount.toString()])
+  }
+
+  get depositAmount(): number | undefined {
+    const amount = this.tagValue('depositAmount');
+    if (amount) return Number(amount)
+  }
 
 	// Note: The actual message content uses the event's content field
 
