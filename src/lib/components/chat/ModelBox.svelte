@@ -162,7 +162,7 @@
 			<Button
 				variant="outline"
 				class={cn(
-					"w-fit justify-between bg-secondary",
+					"w-fit justify-between bg-secondary rounded-b-none",
 				)}
 				{...props}
 				role="combobox"
