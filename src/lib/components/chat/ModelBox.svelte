@@ -128,16 +128,17 @@
 
 		// Using the heuristic that 1 token ≈ 0.75 words
 		// Calculating a weighted average of prompt and completion tokens
-		const inputWordsPerSat = model.prompt_tokens_per_sat * 0.75;
+		//const inputWordsPerSat = model.prompt_tokens_per_sat * 0.75;
 		const outputWordsPerSat = model.completion_tokens_per_sat * 0.75;
 		
 		// Weighted average - 25% input, 75% output
-		const wordsPerSat = (inputWordsPerSat * 0.25 + outputWordsPerSat * 0.75);
+		//const wordsPerSat = (inputWordsPerSat * 0.25 + outputWordsPerSat * 0.75);
+    const wordsPerSat = outputWordsPerSat;
 		
 		// Format the result
 		return wordsPerSat >= 1000 
-			? `${Math.round(wordsPerSat / 100) / 10}k words/sat`
-			: `${Math.round(wordsPerSat)} words/sat`;
+			? `~${Math.round(wordsPerSat / 100) / 10}k words/sat`
+			: `~${Math.round(wordsPerSat)} words/sat`;
 	}
 	
 	// Calculate average tokens per sat for sorting

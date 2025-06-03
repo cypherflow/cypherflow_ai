@@ -139,7 +139,7 @@
 		orientation="vertical"
 		scrollHideDelay={1000}
 	>
-		<div class="flex min-w-full flex-col px-2 pt-2">
+		<div class="flex min-w-full flex-col px-2 pt-2 mb-8">
 			{#each chatSession.chat.messages as message, index (message.id)}
 				<!-- Inline rendering or delegate to MessageBubble -->
 				{#if message.role === 'user'}
