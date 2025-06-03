@@ -134,8 +134,8 @@ export class NDKChatMessage extends NDKEvent {
   }
 
   set completionTokens(tokens: number) {
-    this.removeTag('promptTokens');
-    this.tags.push(['promptTokens', tokens.toString()])
+    this.removeTag('completionTokens');
+    this.tags.push(['completionTokens', tokens.toString()])
   }
 
   get inputCost(): number | undefined {

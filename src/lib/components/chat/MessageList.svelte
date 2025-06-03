@@ -129,6 +129,7 @@
 		// Implement regeneration logic here
 		console.log('Regenerate clicked');
 	}
+
 </script>
 
 <div class="relative flex h-0 flex-grow flex-col">
@@ -155,6 +156,7 @@
 						isLastMessage={isLastAiMessage(index)}
 						isSubmitting={chatSession.isSubmitting}
 						onRegenerateClick={handleRegenerateClick}
+            getMsgInfo={() => chatSession.getMsgInfo(message.id)}
 					/>
 				{/if}
 			{/each}

@@ -415,6 +415,30 @@ export class ChatSession {
 		return this.getBranchMessages(this.activeBranchId);
 	}
 
+  getMsgInfo(id: string): {} | undefined {
+    // get original message nostr event
+    const msgFilter = Array.from(this.messages.values())
+      .filter((msg) => msg.messageId == id)
+   
+    // return if no match for message info
+    if (!msgFilter || !msgFilter[0]) return undefined
+
+
+    // Assume there will only be at least one
+    const msg = msgFilter[0]
+
+    const info = {
+      modelId: msg.modelId,
+      promptTokens: msg.promptTokens,
+      promptTokensPerSat: msg.promptTokensPerSat,
+      completionTokens: msg.completionTokens,
+      completionTokensPerSat: msg.completionTokensPerSat,
+
+    }
+
+    return info
+  }
+
 	/**
 	 * Get all messages for a branch, including those from parent branches
 	 */
@@ -626,8 +650,6 @@ export class ChatSession {
     messageEvent.modelId = annotation.modelId || '';
     messageEvent.depositAmount = annotation.deposit || 0;
     }
-
-    console.log("new message event: ", messageEvent)
 
 		// Since UI is updated automatically for AI responses, previous message should be the second to last
 		const prevMessageId = this.chat.messages[this.chat.messages.length - 2]?.id;
