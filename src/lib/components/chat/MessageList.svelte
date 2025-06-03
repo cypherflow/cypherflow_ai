@@ -6,6 +6,7 @@
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import type { ChatSession } from '$lib/client/chat';
 	import AssistantResponse from './AssistantResponse.svelte';
+	import { blur } from 'svelte/transition';
 	
 	let { chatSession = $bindable() }: { chatSession: ChatSession } = $props();
 	// Reference to the ScrollArea component
@@ -165,7 +166,7 @@
 	
 	<!-- Floating scroll to bottom button -->
 	{#if !shouldAutoScroll && chatSession.chat.messages.length > 0}
-		<div class="absolute bottom-4 right-4 mb-10">
+		<div class="absolute bottom-4 right-4 mb-8" transition:blur>
 			<Button
 				variant="secondary"
 				size="icon"
