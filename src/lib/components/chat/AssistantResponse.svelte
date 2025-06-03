@@ -19,7 +19,7 @@
 			? 'opacity-100'
 			: 'opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-active:opacity-100'}"
 	>
-		<Button onclick={() => copyToClipboard(content, 'Text')} variant="ghost" size="icon">
+		<Button onclick={() => copyToClipboard(content, 'Text')} variant="ghost" size="icon" disabled={isSubmitting && isLastMessage}>
 			<Copy />
 		</Button>
 		<Button disabled onclick={onRegenerateClick} variant="ghost" size="icon">

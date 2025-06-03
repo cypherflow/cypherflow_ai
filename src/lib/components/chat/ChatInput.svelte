@@ -71,13 +71,14 @@
 </script>
 
 <div class="sticky bottom-0 w-full px-2 pb-2">
-  <div  class="w-full flex justify-end bg-transparent">
-    <!--<div class="bg-secondary rounded-t-xl">-->
-
-					<ModelBox bind:chatSession={chatSession} />
-    <!--</div>-->
-  </div>
-	<div class="w-full rounded-b-xl rounded-tl-xl border bg-secondary p-1 shadow-2xl dark:shadow-popover">
+	<!-- ModelBox positioned absolutely, anchored to top-right of the input container -->
+	<div class="absolute bottom-full right-2 z-10 mb-0">
+		<div class="flex justify-end">
+			<ModelBox bind:chatSession={chatSession} />
+		</div>
+	</div>
+	
+	<div class="w-full rounded-xl rounded-tr-none border bg-secondary p-1 shadow-2xl dark:shadow-popover">
 		{#if !isSufficientBalance && $isWalletReady}
 			<InsufficientBalanceAlert 
 				requiredAmount={requiredDeposit}
@@ -112,8 +113,6 @@
 					</Button>
 				</div>
 				<div class="flex flex-row items-center gap-2">
-					<!--<ModelBox bind:chatSession={chatSession} />-->
-					
 					<Tooltip.Root>
 						<Tooltip.Trigger>
 							<Button 

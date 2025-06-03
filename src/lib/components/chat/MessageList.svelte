@@ -2,7 +2,7 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
 	import Button from '../ui/button/button.svelte';
-	import { Loader, ChevronDown } from 'lucide-svelte';
+	import { Loader, ArrowDownToDot } from 'lucide-svelte';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import type { ChatSession } from '$lib/client/chat';
 	import AssistantResponse from './AssistantResponse.svelte';
@@ -14,7 +14,7 @@
 	// Smart scroll state
 	let shouldAutoScroll = $state(true);
 	let isUserScrolling = $state(false);
-	const BOTTOM_THRESHOLD = 50; // pixels from bottom to consider "at bottom"
+	const BOTTOM_THRESHOLD = 20; // pixels from bottom to consider "at bottom"
 	
 	function isNearBottom(): boolean {
 		if (!scrollAreaRef) return false;
@@ -93,7 +93,7 @@
 				onScrollEnd();
 			});
 			
-			resizeObserver.observe(scrollAreaRef);
+			resizeObserver.observe(scrollAreaRef!);
 			
 			return () => {
 				resizeObserver.disconnect();
@@ -165,14 +165,14 @@
 	
 	<!-- Floating scroll to bottom button -->
 	{#if !shouldAutoScroll && chatSession.chat.messages.length > 0}
-		<div class="absolute bottom-4 right-4">
+		<div class="absolute bottom-4 right-4 mb-10">
 			<Button
 				variant="secondary"
-				size="sm"
+				size="icon"
 				class="rounded-full shadow-lg"
 				onclick={scrollToBottomManual}
 			>
-				<ChevronDown class="h-4 w-4" />
+				<ArrowDownToDot class="h-4 w-4" />
 			</Button>
 		</div>
 	{/if}
