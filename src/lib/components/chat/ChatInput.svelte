@@ -15,30 +15,30 @@
 	}>();
 	
 	let textareaElement = $state<HTMLTextAreaElement | null>(null);
-	let isDisabled = $derived(chatSession.isSubmitting || !chatSession.chat.input.trim());
+	let isDisabled = $derived(chatSession.isSubmitting || !chatSession.inputText.trim());
 	const currentBalance = $derived($walletBalance);
 	
 	// Calculate required deposit using the utility function
-	let requiredDeposit = $derived.by(() => {
-    let messages: Message[] = [];
+	// let requiredDeposit = $derived.by(() => {
+    // let messages: Message[] = [];
 		
-		// If there's a draft message (current input), add it to the messages for deposit calculation
-		if (chatSession.chat.input && chatSession.chat.input.trim().length > 0) {
-			messages.push({
-				id: 'draft',
-				role: 'user',
-				content: chatSession.chat.input.trim(),
-				createdAt: new Date(),
-				experimental_attachments: undefined,
-				parts: [{type: 'text', text: chatSession.chat.input.trim()}]
-			});
-		}
-		
-		return calculateCurrentDepositAmount(messages, chatSession.modelId);
-	});
+		// // If there's a draft message (current input), add it to the messages for deposit calculation
+		// if (chatSession.inputText && chatSession.inputText.trim().length > 0) {
+		// 	messages.push({
+		// 		id: 'draft',
+		// 		role: 'user',
+		// 		content: chatSession.inputText.trim(),
+		// 		createdAt: new Date(),
+		// 		experimental_attachments: undefined,
+		// 		parts: [{type: 'text', text: chatSession.chat.input.trim()}]
+		// 	});
+		// }
+		//
+		// return calculateCurrentDepositAmount(messages, chatSession.modelId);
+	// });
 	
 	// Check if the current model is affordable based on required deposit
-	const isSufficientBalance = $derived(requiredDeposit <= currentBalance);
+	const isSufficientBalance = true;//$derived(requiredDeposit <= currentBalance);
 	
 	function autoResize() {
 		if (textareaElement) {
@@ -89,7 +89,7 @@
 		<form onsubmit={handleSubmit}>
 			<textarea
 				bind:this={textareaElement}
-				bind:value={chatSession.chat.input}
+				bind:value={chatSession.inputText}
 				oninput={autoResize}
 				onkeydown={handleKeydown}
 				placeholder="Message CypherFlow"
@@ -128,11 +128,11 @@
 								{/if}
 							</Button>
 						</Tooltip.Trigger>
-						{#if !isSufficientBalance && !isDisabled}
-							<Tooltip.Content side="top">
-								<p>Insufficient balance - top up wallet</p>
-							</Tooltip.Content>
-						{/if}
+						<!-- {#if !isSufficientBalance && !isDisabled} -->
+						<!-- 	<Tooltip.Content side="top"> -->
+						<!-- 		<p>Insufficient balance - top up wallet</p> -->
+						<!-- 	</Tooltip.Content> -->
+						<!-- {/if} -->
 					</Tooltip.Root>
 				</div>
 			</div>
