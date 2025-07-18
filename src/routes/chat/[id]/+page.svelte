@@ -11,6 +11,7 @@
 		// Load the specific chat when we land on the chat page
 		loadExistingChat(data.id);
 		console.log('effect new page!!!! loaded existing chat');
+		console.log('activechat message', $state.snapshot(activeChat.chat));
 	});
 </script>
 
@@ -21,10 +22,10 @@
 <div class="mx-auto h-full w-full max-w-3xl">
 	<div class="flex h-full w-full flex-grow flex-col overflow-auto">
 		{#if activeChat.chat.status == 'ready'}}
-			<MessageList chatSession={activeChat.chat} />
+			<MessageList chat={activeChat.chat} />
 
 			<!-- Pass the entire chatSession object to ChatInput -->
-			<ChatInput bind:chatSession={activeChat.chat} />
+			<ChatInput bind:chat={activeChat.chat} />
 		{:else}
 			<span>Loading chat...</span>
 		{/if}

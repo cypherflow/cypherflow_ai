@@ -1,6 +1,10 @@
 // src/lib/client/stores/chatSession.ts
 
+import { createDebug } from "$lib/utils/debug";
 import { ChatCF } from "../chat";
+
+
+const d = createDebug('activeChat');
 
 // Create a global chat session store
 export let activeChat = $state<{ chat: ChatCF }>({ chat: new ChatCF() });
@@ -21,11 +25,13 @@ export function resetForNewChat() {
 export function loadExistingChat(chatId: string) {
   if (!activeChat.chat.isNewChat && activeChat.chat.id === chatId) {
     // Already loaded this chat
+    d.log("already loaded this chat", chatId);
     return;
   }
 
   // Clean up existing session
   if (activeChat.chat) {
+    d.log("destroying existing chat session", activeChat.chat.id);
     activeChat.chat.destroy();
   }
 

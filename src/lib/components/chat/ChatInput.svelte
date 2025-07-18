@@ -5,66 +5,66 @@
 	import ModelBox from './ModelBox.svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
 	import { isWalletReady, walletBalance } from '$lib/client/stores/wallet';
-	import type { ChatSession } from '$lib/client/chat';
+	import type { ChatCF, ChatSession } from '$lib/client/chat';
 	import { calculateCurrentDepositAmount } from '$lib/client/utils/deposit';
 	import InsufficientBalanceAlert from './InsufficientBalanceAlert.svelte';
 	import type { Message } from '@ai-sdk/ui-utils';
-	
-	let { chatSession = $bindable() } = $props<{
-		chatSession: ChatSession;
+
+	let { chat = $bindable() } = $props<{
+		chat: ChatCF;
 	}>();
-	
+
 	let textareaElement = $state<HTMLTextAreaElement | null>(null);
-	let isDisabled = $derived(chatSession.isSubmitting || !chatSession.inputText.trim());
-	const currentBalance = $derived($walletBalance);
-	
+	let isDisabled = $derived(chat.status == 'submitted' || !chat.inputText.trim());
+	// const currentBalance = $derived($walletBalance);
+
 	// Calculate required deposit using the utility function
 	// let requiredDeposit = $derived.by(() => {
-    // let messages: Message[] = [];
-		
-		// // If there's a draft message (current input), add it to the messages for deposit calculation
-		// if (chatSession.inputText && chatSession.inputText.trim().length > 0) {
-		// 	messages.push({
-		// 		id: 'draft',
-		// 		role: 'user',
-		// 		content: chatSession.inputText.trim(),
-		// 		createdAt: new Date(),
-		// 		experimental_attachments: undefined,
-		// 		parts: [{type: 'text', text: chatSession.chat.input.trim()}]
-		// 	});
-		// }
-		//
-		// return calculateCurrentDepositAmount(messages, chatSession.modelId);
+	// let messages: Message[] = [];
+
+	// // If there's a draft message (current input), add it to the messages for deposit calculation
+	// if (chatSession.inputText && chatSession.inputText.trim().length > 0) {
+	// 	messages.push({
+	// 		id: 'draft',
+	// 		role: 'user',
+	// 		content: chatSession.inputText.trim(),
+	// 		createdAt: new Date(),
+	// 		experimental_attachments: undefined,
+	// 		parts: [{type: 'text', text: chatSession.chat.input.trim()}]
+	// 	});
+	// }
+	//
+	// return calculateCurrentDepositAmount(messages, chatSession.modelId);
 	// });
-	
+
 	// Check if the current model is affordable based on required deposit
-	const isSufficientBalance = true;//$derived(requiredDeposit <= currentBalance);
-	
+	const isSufficientBalance = true; //$derived(requiredDeposit <= currentBalance);
+
 	function autoResize() {
 		if (textareaElement) {
 			textareaElement.style.height = 'auto';
 			textareaElement.style.height = textareaElement.scrollHeight + 'px';
 		}
 	}
-	
+
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'Enter' && !e.shiftKey) {
 			e.preventDefault();
 			if (isSufficientBalance) {
-				chatSession.sendUserMessage();
+				chat.handleSubmit();
 			}
 		}
 	}
-	
+
 	function handleSubmit() {
-		if (isSufficientBalance) {
-			chatSession.sendUserMessage();
-		}
+		// if (isSufficientBalance) {
+		chat.sendMessage();
+		// }
 		return false; // Prevent default form submission
 	}
-	
+
 	$effect(() => {
-		if (textareaElement && chatSession.chat.input === '') {
+		if (textareaElement && chat.inputText === '') {
 			textareaElement.style.height = 'auto';
 		}
 	});
@@ -74,28 +74,27 @@
 	<!-- ModelBox positioned absolutely, anchored to top-right of the input container -->
 	<div class="absolute bottom-full right-2 z-10 mb-0">
 		<div class="flex justify-end">
-			<ModelBox bind:chatSession={chatSession} />
+			<!-- <ModelBox bind:chat /> -->
 		</div>
 	</div>
-	
-	<div class="w-full rounded-xl rounded-tr-none border bg-secondary p-1 shadow-2xl dark:shadow-popover">
-		{#if !isSufficientBalance && $isWalletReady}
-			<InsufficientBalanceAlert 
-				requiredAmount={requiredDeposit}
-				modelId={chatSession.modelId}
-			/>
-		{/if}
-		
+
+	<div
+		class="w-full rounded-xl rounded-tr-none border bg-secondary p-1 shadow-2xl dark:shadow-popover"
+	>
+		<!-- {#if !isSufficientBalance && $isWalletReady} -->
+		<!-- 	<InsufficientBalanceAlert requiredAmount={requiredDeposit} modelId={chatSession.modelId} /> -->
+		<!-- {/if} -->
+
 		<form onsubmit={handleSubmit}>
 			<textarea
 				bind:this={textareaElement}
-				bind:value={chatSession.inputText}
+				bind:value={chat.inputText}
 				oninput={autoResize}
 				onkeydown={handleKeydown}
 				placeholder="Message CypherFlow"
 				rows="1"
 				class="max-h-[10em] w-full resize-none overflow-y-auto overscroll-contain rounded-lg bg-secondary p-2 focus:outline-none disabled:opacity-50 md:max-h-[15em]"
-				disabled={chatSession.isSubmitting}
+				disabled={chat.status == 'submitted' || !isWalletReady}
 			></textarea>
 			<div class="flex items-center justify-between">
 				<div class="flex gap-2">
@@ -115,13 +114,13 @@
 				<div class="flex flex-row items-center gap-2">
 					<Tooltip.Root>
 						<Tooltip.Trigger>
-							<Button 
-								type="submit" 
-								size="icon" 
-								class="rounded-xl" 
+							<Button
+								type="submit"
+								size="icon"
+								class="rounded-xl"
 								disabled={isDisabled || !isSufficientBalance}
 							>
-								{#if chatSession.isSubmitting}
+								{#if chat.status == 'submitted'}
 									<LoaderCircle class="animate-spin" />
 								{:else}
 									<ArrowUp />

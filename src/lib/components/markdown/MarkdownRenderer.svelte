@@ -4,7 +4,7 @@
 	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
 	import type { Plugin } from 'svelte-exmarkdown';
 	import rehypeHighlight from 'rehype-highlight';
-	
+
 	// Import common languages
 	import javascript from 'highlight.js/lib/languages/javascript';
 	import typescript from 'highlight.js/lib/languages/typescript';
@@ -25,11 +25,11 @@
 	import ruby from 'highlight.js/lib/languages/ruby';
 	import swift from 'highlight.js/lib/languages/swift';
 	import kotlin from 'highlight.js/lib/languages/kotlin';
-	
+
 	// Import highlight.js styles - you can choose a different theme
 	// Make sure to include this in your svelte.config.js for vite optimization
 	import 'highlight.js/styles/github-dark.css';
-	
+
 	// Import custom renderers
 	import Paragraph from './renderers/Paragraph.svelte';
 	import Heading1 from './renderers/Heading1.svelte';
@@ -47,11 +47,13 @@
 	import Table from './renderers/Table.svelte';
 	import TableCell from './renderers/TableCell.svelte';
 	import TableRow from './renderers/TableRow.svelte';
+	import type { UIMessage } from 'ai';
 	//import Image from './renderers/Image.svelte';
 	//import HorizontalRule from './renderers/HorizontalRule.svelte';
 
-	let { content = $bindable('') } = $props();
+	// let { content = $bindable('') } = $props();
 	//let { class: className = $bindable('') } = $props();
+	let { message = $bindable({}) } = $props<{ message: UIMessage }>();
 
 	// Configure language mapping for highlight.js
 	const languages = {
@@ -93,8 +95,8 @@
 		{
 			rehypePlugin: [
 				rehypeHighlight,
-				{ 
-					ignoreMissing: true, 
+				{
+					ignoreMissing: true,
 					languages,
 					aliases: {
 						js: 'javascript',
@@ -131,7 +133,7 @@
 				table: Table,
 				td: TableCell,
 				th: TableCell,
-				tr: TableRow,
+				tr: TableRow
 				//img: Image,
 				//hr: HorizontalRule
 			}
@@ -140,21 +142,28 @@
 </script>
 
 <div class="markdown-content w-full overflow-hidden">
-	<Markdown md={content} {plugins} />
+	<!-- <Markdown md={content} {plugins} /> -->
+	{#each message.parts as part, partIndex}
+		{#if part.type === 'text-delta'}
+			<Markdown md={part.delta} {plugins} />
+			<!-- {:else if part.type === 'code'} -->
+			<!--   <CodeBlock code={part.code} language={part.language} /> -->
+		{/if}
+	{/each}}
 </div>
 
 <style>
-  /* Target child elements within markdown-content */
-  .markdown-content :global(pre) {
-    @apply rounded-md p-0 my-4 overflow-x-auto;
-  }
+	/* Target child elements within markdown-content */
+	.markdown-content :global(pre) {
+		@apply my-4 overflow-x-auto rounded-md p-0;
+	}
 
-  .markdown-content :global(code) {
-    @apply bg-foreground/20 px-1 py-0.5 rounded font-mono text-sm;
-  }
+	.markdown-content :global(code) {
+		@apply rounded bg-foreground/20 px-1 py-0.5 font-mono text-sm;
+	}
 
-  /* For code blocks (code inside pre) */
-  .markdown-content :global(pre code) {
-    @apply py-4 bg-black whitespace-pre-wrap break-all overflow-x-auto;
-  }
+	/* For code blocks (code inside pre) */
+	.markdown-content :global(pre code) {
+		@apply overflow-x-auto whitespace-pre-wrap break-all bg-black py-4;
+	}
 </style>

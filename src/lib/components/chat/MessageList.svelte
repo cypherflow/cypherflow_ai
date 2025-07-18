@@ -116,6 +116,11 @@
 		}
 	});
 
+	$effect(() => {
+		chat.messages;
+		console.log('messages: ', chat.messages);
+	});
+
 	function isLastAiMessage(index: number): boolean {
 		// Get all AI messages (not user messages)
 		const aiMessages = chat.messages.filter((m) => m.role !== 'user');
@@ -146,17 +151,23 @@
 						<div
 							class="max-w-[420px] rounded-2xl rounded-br-sm bg-primary px-4 py-2 text-primary-foreground"
 						>
-							<p class="whitespace-pre-wrap break-words">{message.content}</p>
+							<!-- <p class="whitespace-pre-wrap break-words">{message.parts}</p> -->
+							{#each message.parts as part, partIndex}
+								{#if part.type === 'text'}
+									<p class="whitespace-pre-wrap break-words">{part.text}</p>
+								{/if}
+							{/each}
 						</div>
 					</div>
 				{:else}
-					<!-- <AssistantResponse  -->
-					<!-- 	content={message.content} -->
-					<!-- 	isLastMessage={isLastAiMessage(index)} -->
-					<!-- 	isSubmitting={chatSession.isSubmitting} -->
-					<!-- 	onRegenerateClick={handleRegenerateClick} -->
-					<!--        getMsgInfo={() => chatSession.getMsgInfo(message.id)} -->
-					<!-- /> -->
+					<!-- <AssistantResponse -->
+					<!--  	content={message.content}  -->
+					<!--  	isLastMessage={isLastAiMessage(index)}  -->
+					<!--  	isSubmitting={chatSession.isSubmitting}  -->
+					<!--  	onRegenerateClick={handleRegenerateClick}  -->
+					<!--         getMsgInfo={() => chatSession.getMsgInfo(message.id)}  -->
+					<!--  /> -->
+					<AssistantResponse {message} />
 				{/if}
 			{/each}
 			{#if chat.status !== 'submitted' && chat.status !== 'streaming'}
@@ -166,7 +177,7 @@
 	</ScrollArea>
 
 	<!-- Floating scroll to bottom button -->
-	{#if !shouldAutoScroll && chatSession.chat.messages.length > 0}
+	{#if !shouldAutoScroll && chat.messages.length > 0}
 		<div class="absolute bottom-4 right-4 mb-8" transition:blur>
 			<Button
 				variant="secondary"

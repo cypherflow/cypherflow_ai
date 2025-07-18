@@ -1,3 +1,4 @@
+import { goto } from '$app/navigation';
 import { createDebug } from '$lib/utils/debug';
 import { Chat } from '@ai-sdk/svelte';
 import {
@@ -12,7 +13,7 @@ import {
 
 export type { CreateUIMessage, UIMessage };
 
-const d = createDebug('chatCF')
+const d = createDebug('chat_cf')
 
 
 export class ChatCF<
@@ -43,6 +44,25 @@ export class ChatCF<
     });
 
     this.isNewChat = !chatId;
+
+  }
+
+  handleSubmit(): void {
+    d.log('handleSubmit', this.inputText);
+    let message = {
+      text: "what is the meaning of life?"//this.inputText
+    };
+    d.log('Creating message', message);
+
+    if (this.isNewChat) {
+      // go to new chat page
+      this.isNewChat = false;
+      goto(`/chat/${this.id}`)
+    }
+    this.sendMessage({ text: "this is a test message" })
+    d.log("chatCF after sending message", $state.snapshot(this));
+    d.log('Message sent');
+
   }
 
   destroy(): void {
