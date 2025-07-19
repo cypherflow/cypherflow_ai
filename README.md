@@ -7,16 +7,15 @@ CypherFlow.ai is a cutting-edge platform providing **private, AI-driven conversa
 ### Key Differentiators & Technical Highlights
 
 - **Decentralized AI Access with Bitcoin Micropayments:**
-  Seamlessly interact with **state-of-the-art AI models** (like GPT-4, Claude, and open-source alternatives) facilitated by a **per-message Bitcoin micropayment system**. This architecture ensures **no subscription lock-in, no KYC requirements**, and **direct cost-efficiency (paying only sats per query)**, leveraging Bitcoin's native capabilities for borderless, private transactions.
+  Seamlessly interact with **state-of-the-art AI models** (like GPT-4.1, Claude 4, and DeepSeekR1) facilitated by a **per-message Bitcoin micropayment system**. This architecture ensures **no subscription lock-in, no KYC requirements**, and **direct cost-efficiency (paying only sats per query)**, leveraging Bitcoin's native capabilities for borderless, private transactions.
 
-- **Integrated Non-Custodial Bitcoin (Lightning & Ecash) Wallet:**
-  Developed and integrated a **fully functional, non-custodial Bitcoin wallet**. This includes robust support for the **Lightning Network** for instant, low-cost transactions, and deep integration of **Ecash (Cashu Mint)**. The implementation specifically utilizes **NIP-60** for the Ecash wallet, enabling **secure, privacy-preserving token management directly within the application**. This showcases expertise in both layer-2 Bitcoin scaling and emerging privacy-focused digital cash systems.
+- **Integrated Non-Custodial Bitcoin (Lightning & Ecash) Wallet:**Developed and integrated a **fully functional, NIP-60 Bitcoin Ecash wallet**. This includes robust support for the **Lightning Network** instant, low-cost transactions, **Chaumian Ecash** Anonymous Payments (Cashu Protocol) and the **Nostr Protocol** private key identity. The implementation specifically utilizes **NIP-60** for the Ecash wallet, enabling **secure, privacy-preserving token management directly within the applications local storage and the encrypted backups on Nostr relays**.
 
 - **Nostr-Native Privacy & Data Sovereignty:**
   Engineered for **true privacy by design** through comprehensive **Nostr protocol integration**:
 
   - **NIP-44 End-to-End Encryption:** All chat conversations are **encrypted client-side** using your Nostr private key, ensuring that only the user can decrypt and access their data.
-  - **Nostr Event-Based Chat Backup:** Every chat interaction is persisted as an **encrypted Nostr event**, enabling a decentralized and resilient backup on Nostr relays. This design ensures **user data follows them across devices without centralized storage**, demonstrating a solid understanding of Nostr's event-driven architecture for robust data handling.
+  - **Nostr Event-Based Chat Backup:** Every chat interaction is persisted as an **encrypted Nostr event**, enabling a decentralized and resilient backup on Nostr relays. This design ensures **user data follows them across devices without centralized storage**,
   - **Nostr Identity for User Authentication:** Leverages Nostr's inherent identity layer for **pseudonymous and censorship-resistant user authentication**, eliminating the need for traditional email/password setups and external identity providers.
 
 - **Progressive Web App (PWA) Architecture:**

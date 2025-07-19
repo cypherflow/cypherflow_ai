@@ -1,0 +1,13 @@
+{
+  "names": {
+    "utxoz": "82c7231afe48ae3622c3ee5d54857a08785f4618884b8dab79bfdf3e814abf47"
+  },
+  "relays": {
+    "82c7231afe48ae3622c3ee5d54857a08785f4618884b8dab79bfdf3e814abf47": [
+      "wss:relay.cypherflow.ai",
+      "wss:nostr.bitcoiner.social",
+      "wss:nos.lol",
+      "wss:relay.damus.io"
+    ]
+  }
+}
