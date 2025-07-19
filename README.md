@@ -1,6 +1,16 @@
-# CypherFlow.ai: Private AI, Bitcoin Freedom
+# CypherFlow.ai: Private KYC-Free AI with Bitcoin and Nostr 
 
-CypherFlow.ai is a cutting-edge platform providing **private, AI-driven conversations** powered by **Bitcoin micropayments**. Experience **uncensored AI access** with **true data ownership** and **financial autonomy**.
+CypherFlow.ai is a cutting-edge **Open Source** platform providing **private, AI conversations** powered by **Bitcoin micropayments**. Experience **uncensored AI access** with **true data ownership** and **financial autonomy**.
+
+<img height="400"  alt="cypherflow_dark" src="https://github.com/user-attachments/assets/135d8ac2-4e66-4039-9b7a-d9c4804df84f" />      <img height="400" alt="Screenshot from 2025-07-18 13-12-45" src="https://github.com/user-attachments/assets/bdd4a2f4-2576-4d30-9f9c-6facce5a390f" />
+
+<img height="400" alt="Screenshot from 2025-07-18 13-11-44" src="https://github.com/user-attachments/assets/fdcbe78c-1d0f-4596-bd9d-afc15426bbd0" /> <img height="400" alt="Screenshot from 2025-07-18 13-19-33" src="https://github.com/user-attachments/assets/a4e862bf-e871-4cf6-8cb5-c8ea0be32ba1" />
+
+<img  height="600" alt="Screenshot from 2025-07-18 13-21-19" src="https://github.com/user-attachments/assets/ba5860ed-a968-474a-a148-da81b881be64" />
+<img  height="600" alt="Screenshot from 2025-07-18 13-22-09" src="https://github.com/user-attachments/assets/2e1c8ad0-5708-420f-91bb-31d50da8d32e" />
+<img  height="600" alt="Screenshot from 2025-07-18 13-22-55" src="https://github.com/user-attachments/assets/34c62e5d-3289-4980-a13f-0feeb67c5bc0" />
+
+
 
 ---
 
@@ -28,31 +38,17 @@ CypherFlow.ai is a cutting-edge platform providing **private, AI-driven conversa
 
 ### How to Get Started
 
-1. **Visit [cypherflow.ai](https://cypherflow.ai)** (or your project's hosted URL).
+1. **Visit [cypherflow.ai](https://cypherflow.ai)**.
 2. **Top up your built-in wallet** with Bitcoin via Lightning or Ecash.
 3. **Start asking your AI questions and experience true privacy.**
 
 ---
 
-### Screenshots
 
-#### App Homepage
-
-_(A clean, inviting shot of the main landing page or the user's dashboard.)_
-
-#### Wallet in Action
-
-_(Showcase the wallet interface with a clear view of Lightning or Ecash elements, possibly a balance or payment being sent/received.)_
-
-#### Chat Interface
-
-_(Display the chat environment, highlighting the conversation flow and aesthetic, potentially with an AI response.)_
-
----
 
 ### Relevant Links
 
 - **Experience CypherFlow.ai Now:** [https://cypherflow.ai](https://cypherflow.ai)
-- **Repository:** [Link to your GitHub Project Repository] (e.g., `https://github.com/yourusername/cypherflow-project`)
+- **Repository:** [Link](https://github.com/cypherflow/cypherflow_ai)
 
 ---
