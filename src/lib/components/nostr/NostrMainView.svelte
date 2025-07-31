@@ -80,7 +80,7 @@
 		</div>
 	{/if}
 	<!-- Footer warning text -->
-	<div class="mt-6 border-t pt-2 text-center text-sm text-muted-foreground">
+	<div class="mt-6 border-t pt-2 text-center text-xs text-muted-foreground">
 		<p>
 			CypherFlow is <a
 				href="https://github.com/cypherflow/cypherflow_ai"
