@@ -2,7 +2,14 @@
 <script lang="ts">
 	import { currentUser } from '$lib/client/stores/nostr';
 	import { Button } from '$lib/components/ui/button';
-	import { ArrowDownRight, ArrowUpRight, Clock, Settings, ScanQrCode } from 'lucide-svelte';
+	import {
+		ArrowDownRight,
+		ArrowUpRight,
+		Clock,
+		Settings,
+		ScanQrCode,
+		ExternalLink
+	} from 'lucide-svelte';
 	import WalletBalance from '$lib/components/wallet/WalletBalance.svelte';
 	import RecentTransactions from '$lib/components/wallet/RecentTransactions.svelte';
 	import { isLoadingTransactions, walletTransactions } from '$lib/client/stores/wallet';
@@ -73,8 +80,14 @@
 		</div>
 	{/if}
 	<!-- Footer warning text -->
-	<div class="mt-6 border-t pt-2 text-center text-xs text-muted-foreground">
-		<p>CypherFlow is open source and experimental.</p>
+	<div class="mt-6 border-t pt-2 text-center text-sm text-muted-foreground">
+		<p>
+			CypherFlow is <a
+				href="https://github.com/cypherflow/cypherflow_ai"
+				target="_blank"
+				class="inline text-blue-500 underline">open source</a
+			> and experimental.
+		</p>
 		<p>Use at your own risk.</p>
 	</div>
 </ViewContainer>
