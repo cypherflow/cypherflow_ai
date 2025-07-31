@@ -19,7 +19,7 @@ CypherFlow.ai is a cutting-edge **Open Source** platform providing **private, AI
 - **Decentralized AI Access with Bitcoin Micropayments:**
   Seamlessly interact with **state-of-the-art AI models** (like GPT-4.1, Claude 4, and DeepSeekR1) facilitated by a **per-message Bitcoin micropayment system**. This architecture ensures **no subscription lock-in, no KYC requirements**, and **direct cost-efficiency (paying only sats per query)**, leveraging Bitcoin's native capabilities for borderless, private transactions.
 
-- **Integrated Non-Custodial Bitcoin (Lightning & Ecash) Wallet:**Developed and integrated a **fully functional, NIP-60 Bitcoin Ecash wallet**. This includes robust support for the **Lightning Network** instant, low-cost transactions, **Chaumian Ecash** Anonymous Payments (Cashu Protocol) and the **Nostr Protocol** private key identity. The implementation specifically utilizes **NIP-60** for the Ecash wallet, enabling **secure, privacy-preserving token management directly within the applications local storage and the encrypted backups on Nostr relays**.
+- **Integrated Bitcoin (Lightning & Ecash) Wallet:**Developed and integrated a **fully functional, NIP-60 Bitcoin Ecash wallet**. This includes robust support for the **Lightning Network** instant, low-cost transactions, **Chaumian Ecash** Anonymous Payments (Cashu Protocol) and the **Nostr Protocol** private key identity. The implementation specifically utilizes **NIP-60** for the Ecash wallet, enabling **secure, privacy-preserving token management directly within the applications local storage and the encrypted backups on Nostr relays**.
 
 - **Nostr-Native Privacy & Data Sovereignty:**
   Engineered for **true privacy by design** through comprehensive **Nostr protocol integration**:
