@@ -13,7 +13,7 @@
 	export let className = 'w-full justify-start text-destructive hover:text-destructive';
 
 	// Track clear database option
-	let clearDatabase = false;
+	let clearDatabase = true;
 
 	// Handle the logout confirmation
 	async function handleConfirmLogout() {

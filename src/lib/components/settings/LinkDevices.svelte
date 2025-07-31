@@ -66,7 +66,8 @@
 		<div class=" space-y-4 px-1">
 			<!-- Instructions -->
 			<div class="text-sm text-muted-foreground">
-				Scan this QR code with your new device and enter the PIN below to link your account.
+				Open Cypherflow.ai in a new deviece and click on "Link from another device". Scan this QR
+				code and enter the PIN below to link your account.
 			</div>
 
 			<!-- Warning for browser extension users -->
