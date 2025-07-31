@@ -4,24 +4,28 @@
 	import Button from '../ui/button/button.svelte';
 	import ModelBox from './ModelBox.svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
-	import { isWalletReady, walletBalance } from '$lib/client/stores/wallet';
+	import { isWalletReady, walletBalance, wallet } from '$lib/client/stores/wallet';
 	import type { ChatSession } from '$lib/client/chat';
 	import { calculateCurrentDepositAmount } from '$lib/client/utils/deposit';
 	import InsufficientBalanceAlert from './InsufficientBalanceAlert.svelte';
 	import type { Message } from '@ai-sdk/ui-utils';
-	
+
 	let { chatSession = $bindable() } = $props<{
 		chatSession: ChatSession;
 	}>();
-	
+
 	let textareaElement = $state<HTMLTextAreaElement | null>(null);
 	let isDisabled = $derived(chatSession.isSubmitting || !chatSession.chat.input.trim());
-	const currentBalance = $derived($walletBalance);
-	
+	let currentBalance = $derived($walletBalance);
+	let cypherFlowBalance = $derived.by(() => {
+		$walletBalance;
+		return $wallet?.mintBalance('https://mint.cypherflow.ai') || 0;
+	});
+
 	// Calculate required deposit using the utility function
 	let requiredDeposit = $derived.by(() => {
-    let messages: Message[] = [];
-		
+		let messages: Message[] = [];
+
 		// If there's a draft message (current input), add it to the messages for deposit calculation
 		if (chatSession.chat.input && chatSession.chat.input.trim().length > 0) {
 			messages.push({
@@ -30,23 +34,23 @@
 				content: chatSession.chat.input.trim(),
 				createdAt: new Date(),
 				experimental_attachments: undefined,
-				parts: [{type: 'text', text: chatSession.chat.input.trim()}]
+				parts: [{ type: 'text', text: chatSession.chat.input.trim() }]
 			});
 		}
-		
+
 		return calculateCurrentDepositAmount(messages, chatSession.modelId);
 	});
-	
+
 	// Check if the current model is affordable based on required deposit
-	const isSufficientBalance = $derived(requiredDeposit <= currentBalance);
-	
+	const isSufficientBalance = $derived(requiredDeposit <= cypherFlowBalance);
+
 	function autoResize() {
 		if (textareaElement) {
 			textareaElement.style.height = 'auto';
 			textareaElement.style.height = textareaElement.scrollHeight + 'px';
 		}
 	}
-	
+
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'Enter' && !e.shiftKey) {
 			e.preventDefault();
@@ -55,14 +59,14 @@
 			}
 		}
 	}
-	
+
 	function handleSubmit() {
 		if (isSufficientBalance) {
 			chatSession.sendUserMessage();
 		}
 		return false; // Prevent default form submission
 	}
-	
+
 	$effect(() => {
 		if (textareaElement && chatSession.chat.input === '') {
 			textareaElement.style.height = 'auto';
@@ -74,18 +78,17 @@
 	<!-- ModelBox positioned absolutely, anchored to top-right of the input container -->
 	<div class="absolute bottom-full right-2 z-10 mb-0">
 		<div class="flex justify-end">
-			<ModelBox bind:chatSession={chatSession} />
+			<ModelBox bind:chatSession />
 		</div>
 	</div>
-	
-	<div class="w-full rounded-xl rounded-tr-none border bg-secondary p-1 shadow-2xl dark:shadow-popover">
-		{#if !isSufficientBalance && $isWalletReady}
-			<InsufficientBalanceAlert 
-				requiredAmount={requiredDeposit}
-				modelId={chatSession.modelId}
-			/>
+
+	<div
+		class="w-full rounded-xl rounded-tr-none border bg-secondary p-1 shadow-2xl dark:shadow-popover"
+	>
+		{#if !isSufficientBalance && $isWalletReady && chatSession.showBalanceWarning}
+			<InsufficientBalanceAlert requiredAmount={requiredDeposit} modelId={chatSession.modelId} />
 		{/if}
-		
+
 		<form onsubmit={handleSubmit}>
 			<textarea
 				bind:this={textareaElement}
@@ -115,10 +118,10 @@
 				<div class="flex flex-row items-center gap-2">
 					<Tooltip.Root>
 						<Tooltip.Trigger>
-							<Button 
-								type="submit" 
-								size="icon" 
-								class="rounded-xl" 
+							<Button
+								type="submit"
+								size="icon"
+								class="rounded-xl"
 								disabled={isDisabled || !isSufficientBalance}
 							>
 								{#if chatSession.isSubmitting}

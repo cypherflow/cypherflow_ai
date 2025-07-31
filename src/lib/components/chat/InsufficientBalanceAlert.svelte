@@ -23,7 +23,9 @@
 				<!--<Wallet class="h-4 w-4 mt-0.5" />-->
 				<div>
 					<div class="text-sm font-medium">{modelId}</div>
-					<div class="text-xs">Minimum balance: {formatSats(requiredAmount)} sats to unlock</div>
+					<div class="text-xs">
+						Minimum balance: {formatSats(requiredAmount)} sats from Cypherflow Mint to unlock
+					</div>
 				</div>
 			</div>
 			<WalletTopUpButton />
